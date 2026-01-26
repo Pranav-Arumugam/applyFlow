@@ -37,8 +37,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "setup-production-app": "npm i && cd client && npm i && npm run build",
     "setup-project": "npm i && cd client && npm i",
-    "dev": "nodemon -L server.js",
+    "server": "nodemon server",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
     "watch": "node --watch server.js"
   },
   "keywords": [],
