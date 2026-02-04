@@ -11,6 +11,7 @@ import authRouter from "./routes/authRouter.js"
 import userRouter from "./routes/userRouter.js"
 import reminderRouter from "./routes/reminderRouter.js"
 import interviewRouter from "./routes/interviewRouter.js"
+import applyRouter from "./routes/applyRouter.js"
 
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
@@ -38,7 +39,7 @@ app.use("/api/v1/jobs", authenticateUser, jobRouter)
 app.use("/api/v1/users", authenticateUser, userRouter)
 app.use("/api/v1/reminders", authenticateUser, reminderRouter)
 app.use("/api/v1/interviews", authenticateUser, interviewRouter)
-app.use("/api/v1/applybuddy")
+app.use("/api/v1/applybuddy", applyRouter)
 app.use("/api/v1/auth", authRouter)
 
 app.get("*", (req, res) => {

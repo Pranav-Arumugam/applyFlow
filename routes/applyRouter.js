@@ -1,8 +1,7 @@
-import { Route } from "express"
-import router from "./reminderRouter"
+import { Router } from "express"
 import { applyBuddy } from "../controllers/jobController"
 
-const router = Route()
+const router = Router()
 
 router.route("/").get(applyBuddy)
 
