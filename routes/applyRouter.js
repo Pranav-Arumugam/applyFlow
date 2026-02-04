@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { applyBuddy } from "../controllers/jobController"
+import { applyBuddy } from "../controllers/applyBuddyController.js"
 
 const router = Router()
 

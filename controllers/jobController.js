@@ -177,8 +177,3 @@ export const showStats = async (req, res) => {
     .reverse()
   res.send({ defaultStatus, monthStats, recentApplications })
 }
-
-export const applyBuddy = async (req, res) => {
-  // Placeholder for applyBuddy functionality
-  res.status(StatusCodes.NOT_IMPLEMENTED).json({ msg: "Not implemented yet" })
-}
