@@ -10,6 +10,11 @@ const JobSchema = new mongoose.Schema(
       enum: Object.values(JOB_STATUS),
       default: JOB_STATUS.PENDING,
     },
+    jobMode: {
+      type: String,
+      enum: ["remote", "on-site", "hybrid"],
+      default: "remote",
+    },
     jobType: {
       type: String,
       enum: Object.values(JOB_TYPES),
@@ -49,7 +54,9 @@ const JobSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
+
+JobSchema.index({ createdBy: 1, jobUrl: 1 }, { unique: true })
 
 export default mongoose.model("Job", JobSchema)

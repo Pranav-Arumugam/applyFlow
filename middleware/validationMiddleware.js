@@ -4,7 +4,7 @@ import {
   NotFoundError,
   UnauthenticatedError,
 } from "../errors/customError.js"
-import { JOB_STATUS, JOB_TYPES } from "../utils/constants.js"
+import { JOB_STATUS, JOB_TYPES, JOB_MODE } from "../utils/constants.js"
 import Job from "../models/JobModel.js"
 import User from "../models/UserModel.js"
 import mongoose from "mongoose"
@@ -236,4 +236,48 @@ export const validateInterviewUpdate = validateError([
     .bail()
     .isIn(["upcoming", "completed", "cancelled"])
     .withMessage("Status must be one of: upcoming, completed, cancelled"),
+])
+
+export const validateJobFromApplyBuddy = validateError([
+  body("company")
+    .trim()
+    .notEmpty()
+    .withMessage("company is required")
+    .isLength({ max: 200 })
+    .withMessage("company name must be less than 200 characters"),
+  body("position").trim().notEmpty().withMessage("Position is required"),
+  body("jobLocation")
+    .trim()
+    .optional()
+    .notEmpty()
+    .withMessage("job location is required"),
+  body("jobDescription")
+    .trim()
+    .notEmpty()
+    .withMessage("job description is required"),
+  body("jobUrl")
+    .trim()
+    .isURL()
+    .notEmpty()
+    .withMessage("job url is required")
+    .custom((value) => {
+      if (!value.match(/linkedin\.com\/jobs\/view\/\d+/)) {
+        throw new Error("Must be a LinkedIn job URL")
+      }
+      return true
+    }),
+  body("jobMode")
+    .optional()
+    .customSanitizer((value) => value?.toLowerCase().trim())
+    .isIn(Object.values(JOB_MODE))
+    .withMessage(
+      `job mongoose must be one of: ${Object.values(JOB_MODE).join(", ")}`,
+    ),
+  body("jobType")
+    .optional()
+    .customSanitizer((value) => value?.toLowerCase().trim())
+    .isIn(Object.values(JOB_TYPES))
+    .withMessage(
+      `job type must be one of: ${Object.values(JOB_TYPES).join(", ")}`,
+    ),
 ])
