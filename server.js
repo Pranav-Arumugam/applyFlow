@@ -39,7 +39,7 @@ app.use("/api/v1/jobs", authenticateUser, jobRouter)
 app.use("/api/v1/users", authenticateUser, userRouter)
 app.use("/api/v1/reminders", authenticateUser, reminderRouter)
 app.use("/api/v1/interviews", authenticateUser, interviewRouter)
-app.use("/api/v1/applybuddy", applyRouter)
+app.use("/api/v1/applybuddy", authenticateUser, applyRouter)
 app.use("/api/v1/auth", authRouter)
 
 app.get("*", (req, res) => {
