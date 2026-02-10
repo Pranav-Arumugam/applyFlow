@@ -1,5 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import Job from "../models/JobModel.js"
+import { extractSkillsByFrequency, analyseJobFit } from "../utils/analyzeJD.js"
+import User from "../models/UserModel.js"
 
 export const test = async (req, res) => {
   // Placeholder for applyBuddy functionality
@@ -7,12 +9,31 @@ export const test = async (req, res) => {
 }
 
 export const createJobFromApplyBuddy = async (req, res) => {
-  const userId = "697721429eeef7aca92bff38" // Placeholder user ID
+  console.log(req.user)
+  const userId = req.user.userId
+  const user = await User.findById(userId)
+  if (!user) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "User not found" })
+  }
 
   const existingJob = await Job.findOne({
     jobUrl: req.body.jobUrl,
     createdBy: userId,
   })
+
+  const { jobDescription = "" } = req.body
+  const requiredSkills = extractSkillsByFrequency(
+    jobDescription,
+    user.skills || [],
+  )
+
+  const {
+    matchedSkills,
+    missingSkills,
+    matchScore,
+    totalRequired,
+    totalMatched,
+  } = analyseJobFit(requiredSkills, user.skills || [])
 
   const fieldsToCheck = [
     "company",
@@ -43,11 +64,18 @@ export const createJobFromApplyBuddy = async (req, res) => {
 
   if (existingJob && isChanged) {
     console.log("change detected, updating existing job")
+
     const updatedJob = await Job.findByIdAndUpdate(
       existingJob._id,
       {
         ...req.body,
         jobUrl: existingJob.jobUrl, // Ensure jobUrl remains unchanged
+        requiredSkills,
+        matchedSkills,
+        missingSkills,
+        matchScore,
+        totalRequired,
+        totalMatched,
         createdBy: userId,
       },
       { new: true },
@@ -58,7 +86,16 @@ export const createJobFromApplyBuddy = async (req, res) => {
     return res.status(StatusCodes.OK).json({ job: existingJob, created: false })
   }
 
-  const job = await Job.create({ ...req.body, createdBy: userId })
+  const job = await Job.create({
+    ...req.body,
+    requiredSkills,
+    matchedSkills,
+    missingSkills,
+    matchScore,
+    totalRequired,
+    totalMatched,
+    createdBy: userId,
+  })
 
   res.status(StatusCodes.CREATED).json({ job, created: true })
 }
