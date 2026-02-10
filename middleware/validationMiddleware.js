@@ -267,7 +267,7 @@ export const validateJobFromApplyBuddy = validateError([
       return true
     }),
   body("jobMode")
-    .optional()
+    .optional({ values: "falsy" })
     .customSanitizer((value) => value?.toLowerCase().trim())
     .isIn(Object.values(JOB_MODE))
     .withMessage(
