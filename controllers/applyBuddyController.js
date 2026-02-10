@@ -7,7 +7,7 @@ export const test = async (req, res) => {
 }
 
 export const createJobFromApplyBuddy = async (req, res) => {
-  const userId = "697721429eeef7aca92bff38" // Placeholder user ID
+  const userId = req.user.userId // Placeholder user ID
 
   const existingJob = await Job.findOne({
     jobUrl: req.body.jobUrl,
