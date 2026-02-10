@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import Job from "../models/JobModel.js"
-import { extractSkillsByFrequency, analyseJobFit } from "./../utils/analyzeJD"
+import { extractSkillsByFrequency, analyseJobFit } from "../utils/analyzeJD.js"
+import User from "../models/UserModel.js"
 
 export const test = async (req, res) => {
   // Placeholder for applyBuddy functionality
@@ -8,7 +9,12 @@ export const test = async (req, res) => {
 }
 
 export const createJobFromApplyBuddy = async (req, res) => {
-  const userId = req.user.userId // Placeholder user ID
+  console.log(req.user)
+  const userId = req.user.userId
+  const user = await User.findById(userId)
+  if (!user) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "User not found" })
+  }
 
   const existingJob = await Job.findOne({
     jobUrl: req.body.jobUrl,
