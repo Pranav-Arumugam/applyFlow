@@ -2,6 +2,7 @@ import "express-async-errors"
 import express from "express"
 import * as dotenv from "dotenv"
 import morgan from "morgan"
+import cors from "cors"
 import { dirname } from "path"
 import { fileURLToPath } from "url"
 import path from "path"
@@ -28,6 +29,34 @@ if (process.env.NODE_ENV === "development") {
 }
 app.use(express.static(path.resolve(__dirname, "./client/dist")))
 app.use(cookieParser())
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        process.env.CLIENT_URL_1,
+        process.env.CLIENT_URL_2,
+      ]
+
+      if (!origin && process.env.NODE_ENV === "development") {
+        return callback(null, true)
+      }
+
+      if (
+        origin?.startsWith("chrome-extension://") ||
+        origin?.startsWith("moz-extension://")
+      ) {
+        return callback(null, true)
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true)
+      }
+
+      callback(new Error("Not allowed by CORS"))
+    },
+    credentials: true,
+  }),
+)
 app.use(express.json())
 
 app.get("/api/v1/test", (req, res) => {
