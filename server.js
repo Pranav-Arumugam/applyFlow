@@ -41,7 +41,8 @@ app.use(
       ]
       console.log("Allowed origins:", allowedOrigins)
 
-      if (!origin && process.env.NODE_ENV === "development") {
+      if (!origin) {
+        console.log("→ Allowing (no origin - same-origin request)")
         return callback(null, true)
       }
 
