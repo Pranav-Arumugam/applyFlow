@@ -31,11 +31,15 @@ if (process.env.NODE_ENV === "development") {
 app.use(
   cors({
     origin: function (origin, callback) {
+      console.log("=== CORS DEBUG ===")
+      console.log("Incoming origin:", origin)
+      console.log("NODE_ENV:", process.env.NODE_ENV)
       const allowedOrigins = [
         process.env.CLIENT_URL_1,
         process.env.CLIENT_URL_2,
         process.env.CLIENT_URL_3,
       ]
+      console.log("Allowed origins:", allowedOrigins)
 
       if (!origin && process.env.NODE_ENV === "development") {
         return callback(null, true)
@@ -45,13 +49,15 @@ app.use(
         origin?.startsWith("chrome-extension://") ||
         origin?.startsWith("moz-extension://")
       ) {
+        console.log("→ Allowing (extension)")
         return callback(null, true)
       }
 
       if (allowedOrigins.includes(origin)) {
+        console.log("→ Allowing (in whitelist)")
         return callback(null, true)
       }
-
+      console.log("→ BLOCKING")
       callback(new Error("Not allowed by CORS"))
     },
     credentials: true,
