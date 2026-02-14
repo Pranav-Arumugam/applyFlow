@@ -27,8 +27,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"))
 }
-app.use(express.static(path.resolve(__dirname, "./client/dist")))
-app.use(cookieParser())
+//CORS configuration to allow requests from specified origins and handle development and extension environments
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -59,6 +58,8 @@ app.use(
   }),
 )
 app.use(express.json())
+app.use(cookieParser())
+app.use(express.static(path.resolve(__dirname, "./client/dist")))
 
 app.get("/api/v1/test", (req, res) => {
   res.json({ msg: "test route works" })
