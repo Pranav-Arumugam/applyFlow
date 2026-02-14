@@ -35,6 +35,7 @@ app.use(
       const allowedOrigins = [
         process.env.CLIENT_URL_1,
         process.env.CLIENT_URL_2,
+        process.env.CLIENT_URL_3,
       ]
 
       if (!origin && process.env.NODE_ENV === "development") {
