@@ -50,3 +50,15 @@ export const Logout = async (req, res) => {
   })
   res.status(StatusCodes.OK).json({ msg: "user logged out" })
 }
+
+export const getAuthStatus = async (req, res) => {
+  const user = await User.findById(req.user.userId).select("-password")
+  res.status(StatusCodes.OK).json({
+    user: {
+      userId: req.user.userId,
+      name: user.name,
+    },
+    authenticated: true,
+    msg: "Authenticated",
+  })
+}
