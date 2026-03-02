@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose"
 import { hashPassword } from "../utils/hashPassword.js"
+import { USER_ROLES, UserRole } from "../utils/constants.js"
 
 export type Skills = {
   name: string
@@ -12,7 +13,7 @@ export interface Userstruct {
   password: string
   lastName: string
   location: string
-  role: "user" | "admin"
+  role: UserRole
   skills: Skills[]
 }
 
@@ -38,9 +39,9 @@ const skillSchema = new Schema<Skills>(
 
 const UserSchema = new mongoose.Schema<UserDocument>(
   {
-    name: String,
-    email: String,
-    password: String,
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     lastName: {
       type: String,
       default: "LastName",
@@ -51,7 +52,7 @@ const UserSchema = new mongoose.Schema<UserDocument>(
     },
     role: {
       type: String,
-      enum: ["admin", "man"],
+      enum: ["admin", "user"],
       default: "user",
     },
     skills: {
@@ -69,9 +70,9 @@ UserSchema.pre("save", async function (next) {
 })
 //just to remove the password value from the user object
 UserSchema.methods.toJSON = function () {
-  let obj = this.toObject()
+  const obj = this.toObject()
   delete obj.password
   return obj
 }
 
-export default mongoose.model("User", UserSchema)
+export default mongoose.model<UserDocument>("User", UserSchema)

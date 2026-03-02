@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Types } from "mongoose"
+import mongoose, { Schema, Document, Types, HydratedDocument } from "mongoose"
 import {
   JOB_STATUS,
   JOB_TYPES,
@@ -8,30 +8,30 @@ import {
   JobMode,
 } from "../utils/constants.js"
 
-interface JobData {
-  company: string
-  position: string
-  jobStatus: JobStatus
-  jobMode: JobMode
-  jobType: JobType
-  jobLocation: string
-  jobDescription?: string
-  jobUrl: string
-  requiredSkills: string[]
-  matchedSkills: string[]
-  missingSkills: string[]
-  matchScore: number
-  createdBy: Types.ObjectId
-}
+// interface JobData {
+//   company: string
+//   position: string
+//   jobStatus: JobStatus
+//   jobMode: JobMode
+//   jobType: JobType
+//   jobLocation: string
+//   jobDescription?: string
+//   jobUrl: string
+//   requiredSkills: string[]
+//   matchedSkills: string[]
+//   missingSkills: string[]
+//   matchScore: number
+//   createdBy: Types.ObjectId
+// }
 
-export interface JobDocument extends JobData, Document {
-  createdAt: Date
-  updatedAt: Date
-}
+// export interface JobDocument extends JobData, Document {
+//   createdAt: Date
+//   updatedAt: Date
+// }
 
 ///-------------------------------schema-----------------------------------------------------------------
 
-const JobSchema = new Schema<JobDocument>(
+const JobSchema = new Schema(
   {
     company: { type: String, required: true },
     position: { type: String, required: true },
@@ -76,10 +76,13 @@ const JobSchema = new Schema<JobDocument>(
     matchScore: {
       type: Number,
       default: 0,
+      min: 0,
+      max: 100,
     },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
   },
   {
@@ -89,4 +92,14 @@ const JobSchema = new Schema<JobDocument>(
 
 JobSchema.index({ createdBy: 1, jobUrl: 1 }, { unique: true })
 
-export default mongoose.model<JobDocument>("Job", JobSchema)
+export type Job = mongoose.InferSchemaType<typeof JobSchema>
+
+export type JobDoc = HydratedDocument<Job>
+
+export type JobLean = Job & {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+}
+
+export default mongoose.model<JobDoc>("Job", JobSchema)

@@ -24,8 +24,32 @@ export const JOB_SORT_BY = {
   DESCENDING: "z-a",
 }
 
+export const USER_ROLES = {
+  USER: "user",
+  ADMIN: "admin",
+} as const
+
+export const INTERVIEW_MODE = {
+  ONLINE: "online",
+  ONSITE: "onsite",
+  PHONE: "phone",
+} as const
+
+export const INTERVIEW_STATUS = {
+  UPCOMING: "upcoming",
+  COMPLETED: "completed",
+  CANCELLED: "cancelled",
+} as const
+
+export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES]
+
 export type JobStatus = (typeof JOB_STATUS)[keyof typeof JOB_STATUS]
 
 export type JobType = (typeof JOB_TYPES)[keyof typeof JOB_TYPES]
 
 export type JobMode = (typeof JOB_MODE)[keyof typeof JOB_MODE]
+
+export type InterviewMode = (typeof INTERVIEW_MODE)[keyof typeof INTERVIEW_MODE]
+
+export type InterviewStatus =
+  (typeof INTERVIEW_STATUS)[keyof typeof INTERVIEW_STATUS]
