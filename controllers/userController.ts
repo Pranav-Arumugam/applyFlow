@@ -1,11 +1,11 @@
 import { StatusCodes } from "http-status-codes"
-import User, { UserDocument, Userstruct } from "../models/UserModel.js"
+import User from "../models/UserModel.js"
 import Job from "../models/JobModel.js"
 import { extractSkillsByFrequency, analyseJobFit } from "../utils/analyzeJD.js"
 import { Request, Response } from "express"
 import { NotFoundError, UnauthenticatedError } from "../errors/customError.js"
+import { NonSensitiveUserData } from "../types/index.js"
 
-type NonSensitiveUserData = Omit<Userstruct, "password">
 export const getCurrentUser = async (
   req: Request,
   res: Response,

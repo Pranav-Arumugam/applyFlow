@@ -4,20 +4,7 @@ import { UnauthenticatedError } from "../errors/customError.js"
 import { checkPassword } from "../utils/hashPassword.js"
 import { createJWT } from "../utils/tokenUtils.js"
 import { Request, Response } from "express"
-
-interface RegisterBody {
-  name: string
-  email: string
-  password: string
-  lastName?: string
-  location?: string
-  role?: string
-}
-
-interface LoginBody {
-  email: string
-  password: string
-}
+import { RegisterBody, LoginBody } from "../types/index.js"
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const isFirstUser = (await User.countDocuments()) === 0

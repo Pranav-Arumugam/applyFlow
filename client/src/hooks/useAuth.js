@@ -29,7 +29,7 @@ export const useLoginUser = () => {
   return useMutation({
     mutationFn: (formData) => login(formData),
     onSuccess: (data) => {
-      queryClient.setQueryData(["currentUser"], data.user)
+      queryClient.setQueryData(["currentUscer"], data.user)
     },
   })
 }

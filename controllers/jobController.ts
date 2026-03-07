@@ -7,60 +7,16 @@ import { extractSkillsByFrequency, analyseJobFit } from "../utils/analyzeJD.js"
 import day from "dayjs"
 import { Request, Response } from "express"
 import { UserPayload } from "../types/index.js"
-
-type queryObjectType = {
-  createdBy: string
-  jobStatus?: string
-  jobType?: string
-  $or?: Array<
-    | { position?: { $regex: string; $options: string } }
-    | { company?: { $regex: string; $options: string } }
-  >
-}
-
-type RequestQuery = {
-  search?: string
-  status?: string
-  type?: string
-  page?: number
-  limit?: number
-  sort?: string
-}
-
-type createJobRequestBody = {
-  position: string
-  company: string
-  jobLocation: string
-  jobType: string
-  jobStatus: string
-  jobDescription: string
-  jobUrl: string
-  createdBy?: string
-}
-
-type IdJobRequestParams = {
-  id: string
-}
-
-type updateJobRequestBody = Partial<createJobRequestBody>
-
-type stats = {
-  _id: string
-  count: number
-}
-
-type monthStats = {
-  _id: { year: number; month: number }
-  count: number
-}
-
-type defaultStats = {
-  total: number
-  pending: number
-  interview: number
-  accepted: number
-  rejected: number
-}
+import {
+  queryObjectType,
+  RequestQuery,
+  createJobRequestBody,
+  IdJobRequestParams,
+  updateJobRequestBody,
+  stats,
+  monthStats,
+  defaultStats,
+} from "../types/index.js"
 
 export const getAllJobs = async (
   req: Request,
@@ -198,7 +154,7 @@ export const deleteJob = async (req: Request, res: Response): Promise<void> => {
   const { id } = param
   const removedJob = await Job.findByIdAndDelete(id)
 
-  res.status(200).json({ removedJob })
+  res.status(200).json({ msg: "Job has been removed" })
 }
 
 export const showStats = async (req: Request, res: Response): Promise<void> => {

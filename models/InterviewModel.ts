@@ -1,29 +1,11 @@
-import mongoose, { Types, Document, Schema, PopulatedDoc } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 import {
   INTERVIEW_MODE,
   INTERVIEW_STATUS,
   InterviewMode,
   InterviewStatus,
 } from "../utils/constants"
-
-import { JobDoc } from "./JobModel.ts"
-
-export interface Interview {
-  company: string
-  position: string
-  interviewAt: Date
-  mode: InterviewMode
-  location?: string
-  notes?: string
-  job: PopulatedDoc<JobDoc>
-  status: InterviewStatus
-  createdBy: Types.ObjectId
-}
-
-export interface InterviewDoc extends Interview, Document {
-  createdAt: Date
-  updatedAt: Date
-}
+import { InterviewDoc } from "../types/index.ts"
 
 const InterviewSchema = new Schema<InterviewDoc>(
   {

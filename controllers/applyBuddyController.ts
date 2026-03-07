@@ -4,16 +4,7 @@ import { extractSkillsByFrequency, analyseJobFit } from "../utils/analyzeJD.js"
 import User from "../models/UserModel.js"
 import { Request, Response } from "express"
 import { NotFoundError, UnauthenticatedError } from "../errors/customError.js"
-type createJobRequestBody = {
-  position: string
-  company: string
-  jobLocation: string
-  jobType: string
-  jobStatus: string
-  jobDescription: string
-  jobUrl: string
-  createdBy?: string
-}
+import { createJobRequestBody } from "../types/index.js"
 
 export const test = async (req: Request, res: Response) => {
   // Placeholder for applyBuddy functionality

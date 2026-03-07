@@ -1,26 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose"
 import { hashPassword } from "../utils/hashPassword.js"
 import { USER_ROLES, UserRole } from "../utils/constants.js"
-
-export type Skills = {
-  name: string
-  years: number
-}
-
-export interface Userstruct {
-  name: string
-  email: string
-  password: string
-  lastName: string
-  location: string
-  role: UserRole
-  skills: Skills[]
-}
-
-export interface UserDocument extends Userstruct, Document {
-  createdAt: Date
-  updatedAt: Date
-}
+import { Skills, Userstruct, UserDocument } from "../types/index.js"
 
 const skillSchema = new Schema<Skills>(
   {

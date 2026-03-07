@@ -1,4 +1,4 @@
-import { Skills } from "../models/UserModel.js"
+import { Skills } from "../types/index.js"
 import { ALL_SKILLS } from "./skillsDb.js"
 
 import { JobFitAnalysis } from "../types/index.js"

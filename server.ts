@@ -1,6 +1,8 @@
 import "express-async-errors"
 import express, { Request, Response } from "express"
-import * as dotenv from "dotenv"
+import "./utils/env.js"
+// import * as dotenv from "dotenv"
+// dotenv.config()
 import morgan from "morgan"
 import cors from "cors"
 import { dirname } from "path"
@@ -19,7 +21,6 @@ import cookieParser from "cookie-parser"
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js"
 import { authenticateUser } from "./middleware/authMiddleware.js"
 import { ENV } from "./utils/env.js"
-dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3000

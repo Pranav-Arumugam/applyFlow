@@ -15,5 +15,3 @@ export const verifyJWT = (token: string): UserPayload => {
   const verified = jwt.verify(token, ENV.JWT_SECRET) as UserPayload
   return verified
 }
-
-Request
