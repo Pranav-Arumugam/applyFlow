@@ -1,3 +1,5 @@
+import React from "react"
+
 import {
   InterviewMode,
   InterviewStatus,
@@ -153,4 +155,23 @@ export interface JobFilters {
   sort?: string
   page?: number
   limit?: number
+}
+
+export interface EditJobParams {
+  id: string
+  formData: Partial<JobFormData>
+}
+
+export interface EditInterviewParams {
+  id: string
+  formData: Partial<InterviewFormData>
+}
+
+//---------- component props types ---------
+
+export interface PageInfo {
+  title: string
+  icon: React.ReactNode
+  breadcrumbs: string[]
+  gradient: string
 }
