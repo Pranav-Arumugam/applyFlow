@@ -125,7 +125,7 @@ export interface JobFormData {
   jobStatus?: JobStatus
   jobMode?: JobMode
   jobType?: JobType
-  jobDescription: string
+  jobDescription?: string
   jobUrl: string
 }
 
