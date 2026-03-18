@@ -3,14 +3,15 @@ import { useCurrentUser, useUpdateuser } from "../hooks/useAuth"
 import { toast } from "react-toastify"
 import { X, Plus } from "lucide-react"
 import { UserProfileFormData } from "../types"
+import { LOCATION_OPTIONS } from "../utils/constants"
 interface FieldProps {
   label: string
   children: React.ReactNode
 }
 
 const Profile = () => {
-  const { data: user, isLoading, error: getError } = useCurrentUser()
-  const { mutate: updateUser, isPending, error: updateError } = useUpdateuser()
+  const { data: user, isLoading } = useCurrentUser()
+  const { mutate: updateUser, isPending } = useUpdateuser()
   const [isEditing, setIsEditing] = useState(false)
   const [profileData, setProfileData] = useState<UserProfileFormData>({
     name: "",
@@ -19,13 +20,7 @@ const Profile = () => {
     location: "",
     skills: [],
   })
-  const LOCATION_OPTION = [
-    "London, Uk",
-    "Liverpool UK",
-    "Manchester, UK",
-    "Edinburgh, UK",
-    "Ireland",
-  ]
+
   const [newSkill, setNewSkill] = useState("")
 
   useEffect(() => {
@@ -165,8 +160,8 @@ const Profile = () => {
                   className='input'
                 >
                   <option value=''>Select your location</option>
-                  {LOCATION_OPTION.map((location) => (
-                    <option value={location}>{location}</option>
+                  {LOCATION_OPTIONS.map((location) => (
+                    <option value={location.value}>{location.label}</option>
                   ))}
                 </select>
               ) : (

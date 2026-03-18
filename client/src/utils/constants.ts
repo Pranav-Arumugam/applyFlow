@@ -78,3 +78,31 @@ export const JOB_TYPE_OPTIONS = [
   { label: "Part-Time", value: JOB_TYPES.PARTTIME },
   { label: "Internship", value: JOB_TYPES.INTERNSHIP },
 ] as const
+
+export const JOB_SORT_OPTIONS = [
+  { label: "Newest", value: JOB_SORT_BY.RECENT },
+  { label: "Oldest", value: JOB_SORT_BY.OLD },
+  { label: "A-Z", value: JOB_SORT_BY.ASCENDING },
+  { label: "Z-A", value: JOB_SORT_BY.DESCENDING },
+] as const
+
+export const JOB_SORT = {
+  NEWEST: "newest",
+  OLDEST: "oldest",
+  ASCENDING: "a-z",
+  DESCENDING: "z-a",
+} as const
+
+export type JobSort = (typeof JOB_SORT)[keyof typeof JOB_SORT]
+
+const LOCATION_OPTION = [
+  "London, Uk",
+  "Liverpool UK",
+  "Manchester, UK",
+  "Edinburgh, UK",
+  "Ireland",
+]
+export const LOCATION_OPTIONS = LOCATION_OPTION.map((loc) => ({
+  label: loc,
+  value: loc,
+}))

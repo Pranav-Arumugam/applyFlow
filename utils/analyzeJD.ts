@@ -23,7 +23,7 @@ export const extractSkillsByFrequency = (
   userSkills: Skills[],
 ): string[] => {
   const cleanedText = normalise(jobDescription)
-  const tokens = tokenize(cleanedText)
+  // const tokens = tokenize(cleanedText)
 
   ///retrieving the user skills from skillset of the user
   const userSkillKeywords = userSkills.map((skill) => skill.name.toLowerCase())
@@ -34,9 +34,17 @@ export const extractSkillsByFrequency = (
 
   for (const skill of skillSet) {
     const cleanedSkill = normalise(skill)
-    if (cleanedText.includes(cleanedSkill)) {
-      const regex = new RegExp(cleanedSkill, "gi")
-      const count = (cleanedText.match(regex) || []).length
+    let count = 0
+    if (cleanedSkill.length <= 2) {
+      const regex = new RegExp(`\\b${cleanedSkill}\\b`, "gi")
+      count = (cleanedText.match(regex) || []).length
+    } else {
+      if (cleanedText.includes(cleanedSkill)) {
+        const regex = new RegExp(cleanedSkill, "gi")
+        count = (cleanedText.match(regex) || []).length
+      }
+    }
+    if (count > 0) {
       frequencyMap.set(skill, count)
     }
   }

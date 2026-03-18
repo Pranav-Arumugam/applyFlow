@@ -10,7 +10,7 @@ interface SkillPillProps {
   variant?: SkillVariant
 }
 
-const SkillsSection = ({ job }: { job: Job }) => {
+const SkillsSection = ({ job }: SkillsSectionProps) => {
   const required = job.requiredSkills || []
   const matched = job.matchedSkills || []
   const missing = job.missingSkills || []
@@ -30,11 +30,8 @@ const SkillsSection = ({ job }: { job: Job }) => {
               </p>
             )}
             {required.map((skill) => (
-              <SkillPill
-                key={`req-${skill}`}
-                variant='required'
-                children={skill}
-              />
+              <SkillPill key={`req-${skill}`}
+                variant='required'>{skill}</SkillPill>
             ))}
           </div>
         </div>
@@ -45,15 +42,14 @@ const SkillsSection = ({ job }: { job: Job }) => {
           <div className='flex flex-wrap gap-2'>
             {matched.length === 0 && (
               <p className='text-sm text-gray-400'>
-                no required skills found ..
+                no matched skills found ..
               </p>
             )}
             {matched.map((skill) => (
-              <SkillPill
-                key={`mat-${skill}`}
-                variant='matched'
-                children={skill}
-              />
+              <SkillPill key={`mat-${skill}`}
+                variant='matched'>
+                {skill}
+              </SkillPill>
             ))}
           </div>
         </div>
@@ -64,15 +60,14 @@ const SkillsSection = ({ job }: { job: Job }) => {
           <div className='flex flex-wrap gap-2'>
             {missing.length === 0 && (
               <p className='text-sm text-gray-400'>
-                no required skills found ..
+                no missing skills found ..
               </p>
             )}
             {missing.map((skill) => (
-              <SkillPill
-                key={`miss-${skill}`}
-                variant='missing'
-                children={skill}
-              />
+              <SkillPill key={`miss-${skill}`}
+                variant='missing'>
+                  {skill}
+                </SkillPill>
             ))}
           </div>
         </div>

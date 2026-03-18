@@ -143,6 +143,32 @@ export const updateJob = async (req: Request, res: Response): Promise<void> => {
   const param = req.params as IdJobRequestParams
   const { id } = param
   const body = req.body as updateJobRequestBody
+
+  //recalculating of skills incase of change in JD.
+  if (body.jobDescription) {
+    const user = await User.findById(req.user.userId)
+    if (user) {
+      const requiredSkills = extractSkillsByFrequency(
+        body.jobDescription,
+        user.skills,
+      )
+
+      const {
+        matchedSkills,
+        missingSkills,
+        matchScore,
+        totalRequired,
+        totalMatched,
+      } = analyseJobFit(requiredSkills, user.skills || [])
+
+      body.requiredSkills = requiredSkills
+      body.matchedSkills = matchedSkills
+      body.missingSkills = missingSkills
+      body.matchScore = matchScore
+      body.totalRequired = totalRequired
+      body.totalMatched = totalMatched
+    }
+  }
   const updatedJob = await Job.findByIdAndUpdate(id, body, { new: true })
   res
     .status(StatusCodes.OK)

@@ -6,7 +6,6 @@ import {
   Briefcase,
   Calendar,
   CheckCircle2,
-  XCircle,
   Clock,
   TrendingUp,
   Plus,

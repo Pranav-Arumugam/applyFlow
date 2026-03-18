@@ -6,11 +6,11 @@ import { Home, Briefcase, Calendar, BarChart3, User } from "lucide-react"
 import { PageInfo } from "../types"
 
 const DashboardLayout = () => {
+  const location = useLocation()
   const [mobileSidebar, setMobileSidebar] = useState(false)
   const toggleMobileSidebar = () => setMobileSidebar((prev) => !prev)
 
   const getPageInfo = (): PageInfo => {
-    const location = useLocation()
     const path = location.pathname
 
     if (path === "/dashboard") {

@@ -80,6 +80,11 @@ export interface JobsResponse {
   }
 }
 
+export interface MonthStat {
+  date: string
+  count: number
+}
+
 export interface StatsResponse {
   defaultStatus: {
     total: number
@@ -88,10 +93,7 @@ export interface StatsResponse {
     accepted: number
     rejected: number
   }
-  monthStats: {
-    date: string
-    count: number
-  }[]
+  monthStats: MonthStat[]
   recentApplications: Job[]
 }
 
@@ -111,7 +113,10 @@ export interface RegisterFormData {
   lastName: string
   location: string
   role?: UserRole
+  skills: Skills[]
 }
+
+
 
 export interface LoginFormData {
   email: string
@@ -175,3 +180,5 @@ export interface PageInfo {
   breadcrumbs: string[]
   gradient: string
 }
+
+export type TabType = "Jobdescription" | "Overview" | "Skills"

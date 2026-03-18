@@ -6,7 +6,7 @@ import LoadingDots from "../components/LoadingDots"
 import { useGetAllJobs } from "../hooks/useJobs"
 import { Link } from "react-router-dom"
 import { Briefcase, Plus } from "lucide-react"
-import { JobStatus, JobType } from "../utils/constants"
+import { JobStatus, JobType, JobSort } from "../utils/constants"
 import { JobFilters } from "../types"
 import axios from "axios"
 
@@ -14,7 +14,7 @@ const JobsLayout = () => {
   const [search, setSearch] = React.useState<string>("")
   const [status, setStatus] = React.useState<JobStatus | "all">("all")
   const [type, setType] = React.useState<JobType | "all">("all")
-  const [sort, setSort] = React.useState<"newest" | "oldest">("newest")
+  const [sort, setSort] = React.useState<JobSort>("newest")
   const [page, setPage] = useState<number>(1)
   const [limit] = useState<number>(10)
 
@@ -189,7 +189,7 @@ const JobsLayout = () => {
             {}
           </div>
         </section>
-        {pagination.totalPages > 1 && (
+        {pagination?.totalPages > 1 && (
           <div className='flex items-center justify-between bg-white rounded-2xl border border-gray-200 p-4'>
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}

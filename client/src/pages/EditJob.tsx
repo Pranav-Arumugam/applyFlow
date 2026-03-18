@@ -1,8 +1,6 @@
 import React from "react"
 import { useNavigate, useParams } from "react-router-dom"
-
-import JobForm, { EMPTY_JOB } from "../components/JobForm"
-import NavigationLink from "../components/NavigationLink"
+import JobForm from "../components/JobForm"
 import { useEditJob, useGetJob } from "../hooks/useJobs"
 import LoadingDots from "../components/LoadingDots"
 import { toast } from "react-toastify"
@@ -12,6 +10,8 @@ const EditJob = () => {
   const navigate = useNavigate()
 
   const { id } = useParams()
+  if (!id) return <p>Invalid job ID</p>
+
   const { data: job, isLoading, error } = useGetJob(id)
   const { mutate: editJob, isPending } = useEditJob()
 
@@ -26,8 +26,8 @@ const EditJob = () => {
       },
     )
   }
-
   if (isLoading) return <LoadingDots />
+  if (!job) return <p>Job not found</p>
   return (
     <>
       {error && (

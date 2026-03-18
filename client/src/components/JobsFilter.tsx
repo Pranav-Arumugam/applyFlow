@@ -1,17 +1,17 @@
 import React from "react"
-import { JobStatus, JobType } from "../utils/constants"
-import { JobsResponse } from "../types"
+import { JobStatus, JobType, JobSort } from "../utils/constants"
+import { Job, JobsResponse } from "../types"
 interface JobsFilterProps {
   search: string
-  status: string
-  type: string
-  sort: string
+  status: JobStatus | "all"
+  type: JobType | "all"
+  sort: JobSort
   length: number
   debouncedSearch: string
   onSearchChange: (value: string) => void
   onStatusChange: (value: JobStatus | "all") => void
   onTypeChange: (value: JobType | "all") => void
-  onSortChange: (value: string) => void
+  onSortChange: (value: JobSort) => void
   pagination: JobsResponse["pagination"] | undefined
 }
 const JobsFilter = ({
@@ -110,7 +110,7 @@ const JobsFilter = ({
             name=''
             id=''
             value={sort}
-            onChange={(e) => onSortChange(e.target.value)}
+            onChange={(e) => onSortChange(e.target.value as JobSort)}
             className='rounded-xl px-4 py-2 bg-white border border-gray-100 shadow-sm'
           >
             {sortOption.map((option) => (

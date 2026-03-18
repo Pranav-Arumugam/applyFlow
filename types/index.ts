@@ -66,6 +66,12 @@ export type createJobRequestBody = {
   jobDescription: string
   jobUrl: string
   createdBy?: string
+  requiredSkills?: string[]
+  matchedSkills?: string[]
+  missingSkills?: string[]
+  matchScore?: number
+  totalRequired?: number
+  totalMatched?: number
 }
 
 export type IdJobRequestParams = {

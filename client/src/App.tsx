@@ -17,20 +17,17 @@ import {
   Stats,
   Profile,
 } from "./pages"
-import DashboardLayout1 from "./pages/DashboardLayout1"
 import JobsLayout from "./pages/JobsLayout"
 import SingleJobView from "./pages/SingleJobView"
 import DashboardHome from "./pages/DashboardHome"
 import InterviewLayout from "./pages/InterviewLayout"
-import InterviewCalendar from "./components/InterviewCalendar"
-import InterviewModal from "./components/InterviewModal"
 import ProtectedRoute from "./components/ProtectedRoute"
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5,
-      cacheTime: 1000 * 60 * 10,
+      gcTime: 1000 * 60 * 10,
       retry: 1,
     },
   },
@@ -74,19 +71,6 @@ const router = createBrowserRouter([
           {
             path: "interviews",
             element: <InterviewLayout />,
-            children: [
-              {
-                index: true,
-                element: <div>Interviews List</div>, // placeholder for now
-              },
-              {
-                path: "calendar",
-                element: <InterviewModal />,
-              },
-              // future:
-              // { path: "new", element: <AddInterview /> },
-              // { path: ":id", element: <InterviewDetail /> },
-            ],
           },
           { path: "stats", element: <Stats /> },
           { path: "profile", element: <Profile /> },
