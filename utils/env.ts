@@ -18,4 +18,5 @@ export const ENV = {
   CLIENT_URL_1: getOptionalEnv("CLIENT_URL_1"),
   CLIENT_URL_2: getOptionalEnv("CLIENT_URL_2"),
   CLIENT_URL_3: getOptionalEnv("CLIENT_URL_3"),
+  CLIENT_URL_4: getOptionalEnv("CLIENT_URL_4"),
 }

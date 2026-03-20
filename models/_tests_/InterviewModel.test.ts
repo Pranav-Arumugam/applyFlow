@@ -2,8 +2,8 @@ import { describe, test, expect, beforeAll, afterAll, afterEach } from "vitest"
 import mongoose, { Types } from "mongoose"
 import { MongoMemoryServer } from "mongodb-memory-server"
 
-import InterviewModel from "../InterviewModel.ts"
-import { INTERVIEW_MODE, INTERVIEW_STATUS } from "../../utils/constants.ts"
+import InterviewModel from "../InterviewModel.js"
+import { INTERVIEW_MODE, INTERVIEW_STATUS } from "../../utils/constants.js"
 
 let mongo: MongoMemoryServer
 

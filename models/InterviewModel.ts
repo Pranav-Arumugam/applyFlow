@@ -1,11 +1,6 @@
 import mongoose, { Schema } from "mongoose"
-import {
-  INTERVIEW_MODE,
-  INTERVIEW_STATUS,
-  InterviewMode,
-  InterviewStatus,
-} from "../utils/constants"
-import { InterviewDoc } from "../types/index.ts"
+import { INTERVIEW_MODE, INTERVIEW_STATUS } from "../utils/constants.js"
+import { InterviewDoc } from "../types/index.js"
 
 const InterviewSchema = new Schema<InterviewDoc>(
   {

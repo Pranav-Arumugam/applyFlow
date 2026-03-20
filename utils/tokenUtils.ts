@@ -1,6 +1,6 @@
 import jwt, { SignOptions } from "jsonwebtoken"
-import { UserPayload } from "../types"
-import { ENV } from "./env"
+import { UserPayload } from "../types/index.js"
+import { ENV } from "./env.js"
 
 export const createJWT = (payload: UserPayload): string => {
   //   console.log(process.env.JWT_SECRET)

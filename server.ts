@@ -40,6 +40,7 @@ app.use(
         ENV.CLIENT_URL_1,
         ENV.CLIENT_URL_2,
         ENV.CLIENT_URL_3,
+        ENV.CLIENT_URL_4,
       ].filter((url): url is string => !!url) // Filter out undefined values
 
       if (!origin) {
