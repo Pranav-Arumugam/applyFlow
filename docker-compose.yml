@@ -1,5 +1,7 @@
 version: "3.8"
 
+name: applyflow
+
 services:
   backend:
     build:
@@ -11,6 +13,13 @@ services:
       - .env
     restart: unless-stopped
 
+    healthcheck:
+      test:
+        ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/v1/test"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
   frontend:
     build:
       context: ./client
@@ -18,5 +27,6 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     restart: unless-stopped
