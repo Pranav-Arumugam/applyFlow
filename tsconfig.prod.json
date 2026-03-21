@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist",
+    "moduleResolution": "Node16",
+    "module": "Node16",
+    "allowImportingTsExtensions": false
+  },
+  "exclude": ["node_modules", "client"]
+}
