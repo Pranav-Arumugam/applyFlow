@@ -39,7 +39,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "setup-production-app": "npm i && cd client && npm i && npm run build",
+    "setup-production-app": "npm i && cd client && npm i && npm run build && cd .. && npm run build",
     "setup-project": "npm i && cd client && npm i",
     "server": "tsx watch server.ts",
     "client": "cd client && npm run dev",
