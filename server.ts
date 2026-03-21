@@ -64,7 +64,7 @@ app.use(
 )
 app.use(express.json())
 app.use(cookieParser())
-app.use(express.static(path.resolve(__dirname, "./client/dist")))
+app.use(express.static(path.resolve(__dirname, "../client/dist")))
 
 app.get("/api/v1/test", (req: Request, res: Response) => {
   res.json({ msg: "test route works" })
@@ -79,7 +79,7 @@ app.use("/api/v1/applybuddy", authenticateUser, applyRouter)
 app.use("/api/v1/auth", authRouter)
 
 app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"))
+  res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"))
 })
 
 app.use(errorHandlerMiddleware)
