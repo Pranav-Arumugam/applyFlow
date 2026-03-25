@@ -5,6 +5,7 @@ import {
   createViewMonthGrid,
   createViewWeek,
   createViewMonthAgenda,
+  CalendarEventExternal,
 } from "@schedule-x/calendar"
 import "temporal-polyfill/global"
 import "@schedule-x/theme-default/dist/index.css"
@@ -24,11 +25,7 @@ interface InterviewCalendarProps {
   onAddInterview: () => void
 }
 
-interface CalendarEvent {
-  id: string
-  title: string
-  start: Temporal.ZonedDateTime
-  end: Temporal.ZonedDateTime
+interface CalendarEvent extends CalendarEventExternal {
   raw: Interview
 }
 
@@ -88,8 +85,9 @@ const InterviewCalendar = ({
     events,
     plugins: [eventsService, createDragAndDropPlugin()],
     callbacks: {
-      onEventClick: (event: CalendarEvent) => {
-        setActiveId(event.id)
+      onEventClick: (event: CalendarEventExternal) => {
+        const calEvent = event as CalendarEvent
+        setActiveId(String(calEvent.id))
         console.log("Event clicked:", event)
         setModalOpen(true)
       },

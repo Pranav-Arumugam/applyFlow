@@ -22,7 +22,7 @@ const LOCATION_OPTIONS = [
 
 interface JobFormProps {
   initialValue: JobFormData
-  onSubmit: (formData: Partial<JobFormData>) => Promise<void>
+  onSubmit: (formData: JobFormData) => Promise<void>
   submitting: boolean
   title?: string
   submitLabel?: string
@@ -170,7 +170,13 @@ const JobForm = ({
   )
 }
 
-const Field = ({ label, children }) => (
+const Field = ({
+  label,
+  children,
+}: {
+  label: string
+  children: React.ReactNode
+}) => (
   <label className='flex flex-col gap-3 text-sm'>
     <span className='font-medium text-gray-700'>{label}</span>
     {children}

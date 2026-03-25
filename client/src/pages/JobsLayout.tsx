@@ -70,7 +70,7 @@ const JobsLayout = () => {
     return (
       <p className='p-4 text-sm text-gray-500'>
         {axios.isAxiosError(error)
-          ? error.response.data?.msg
+          ? error.response?.data?.msg
           : error?.message || "Failed to load jobs"}
       </p>
     )
@@ -189,7 +189,7 @@ const JobsLayout = () => {
             {}
           </div>
         </section>
-        {pagination?.totalPages > 1 && (
+        {pagination && pagination?.totalPages > 1 && (
           <div className='flex items-center justify-between bg-white rounded-2xl border border-gray-200 p-4'>
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}

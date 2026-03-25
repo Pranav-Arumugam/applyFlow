@@ -549,6 +549,7 @@ const MANUFACTURING_SKILLS = [
   "5s",
   "root-cause-analysis",
 ]
+
 //by category
 export const SKILLS_BY_CATEGORY = {
   technology: TECH_SKILLS,
@@ -569,6 +570,8 @@ export const SKILLS_BY_CATEGORY = {
   realEstate: REAL_ESTATE_SKILLS,
   manufacturing: MANUFACTURING_SKILLS,
 }
+
+export type Catkey = keyof typeof SKILLS_BY_CATEGORY
 
 // all master list of skills
 
@@ -592,21 +595,21 @@ export const ALL_SKILLS = [
   ...MANUFACTURING_SKILLS,
 ]
 
-export const getSkillsByCategories = (categories) => {
+export const getSkillsByCategories = (categories: Catkey[]): string[] => {
   return categories.flatMap((cat) => SKILLS_BY_CATEGORY[cat] || [])
 }
 
-export const searchSkills = (query) => {
+export const searchSkills = (query: string) => {
   const lowerQuery = query.toLowerCase()
   return ALL_SKILLS.filter((skill) => skill.toLowerCase().includes(lowerQuery))
 }
 
-export const getSkillCategory = (skill) => {
+export const getSkillCategory = (skill: string): Catkey | null => {
   const lowerSkill = skill.toLowerCase()
 
   for (const [category, skills] of Object.entries(SKILLS_BY_CATEGORY)) {
     if (skills.includes(lowerSkill)) {
-      return category
+      return category as Catkey
     }
   }
 

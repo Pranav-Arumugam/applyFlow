@@ -18,6 +18,12 @@ interface NavigationHeaderProps {
   onMenuClick?: () => void
   showBackButton?: boolean
 }
+
+type BreadCrumb = {
+  label: string
+  path: string
+}
+
 const NavigationHeader = ({
   onMenuClick,
   showBackButton = true,
@@ -50,7 +56,7 @@ const NavigationHeader = ({
   // Generate breadcrumbs based on current path
   const generateBreadcrumbs = () => {
     const paths = location.pathname.split("/").filter(Boolean)
-    const breadcrumbs = []
+    const breadcrumbs: BreadCrumb[] = []
 
     paths.forEach((path, index) => {
       const routePath = "/" + paths.slice(0, index + 1).join("/")

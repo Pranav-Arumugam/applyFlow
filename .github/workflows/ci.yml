@@ -1,0 +1,38 @@
+name: ApplyFlow #name of the pipleine
+
+on: #when to run
+  push:
+    branches: [typescript-migration]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Backend
+        run: npm run build
+
+      - name: Install Frontend Dependencies
+        working-directory: client
+        run: npm install
+
+      - name: Type Check Frontend
+        working-directory: client
+        run: npx tsc --noEmit
+
+      - name: Build Frontend
+        working-directory: client
+        run: npm run build

@@ -30,8 +30,9 @@ const SkillsSection = ({ job }: SkillsSectionProps) => {
               </p>
             )}
             {required.map((skill) => (
-              <SkillPill key={`req-${skill}`}
-                variant='required'>{skill}</SkillPill>
+              <SkillPill key={`req-${skill}`} variant='required'>
+                {skill}
+              </SkillPill>
             ))}
           </div>
         </div>
@@ -46,8 +47,7 @@ const SkillsSection = ({ job }: SkillsSectionProps) => {
               </p>
             )}
             {matched.map((skill) => (
-              <SkillPill key={`mat-${skill}`}
-                variant='matched'>
+              <SkillPill key={`mat-${skill}`} variant='matched'>
                 {skill}
               </SkillPill>
             ))}
@@ -64,10 +64,9 @@ const SkillsSection = ({ job }: SkillsSectionProps) => {
               </p>
             )}
             {missing.map((skill) => (
-              <SkillPill key={`miss-${skill}`}
-                variant='missing'>
-                  {skill}
-                </SkillPill>
+              <SkillPill key={`miss-${skill}`} variant='missing'>
+                {skill}
+              </SkillPill>
             ))}
           </div>
         </div>

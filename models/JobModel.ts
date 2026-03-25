@@ -73,6 +73,14 @@ const JobSchema = new Schema(
       type: [String],
       default: [],
     },
+    totalRequired: {
+      type: Number,
+      default: 0,
+    },
+    totalMatched: {
+      type: Number,
+      default: 0,
+    },
     matchScore: {
       type: Number,
       default: 0,

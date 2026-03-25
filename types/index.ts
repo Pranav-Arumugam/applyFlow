@@ -1,6 +1,12 @@
 import { Schema, Document, PopulatedDoc, Types } from "mongoose"
 import { JobDoc } from "../models/JobModel.js"
-import { UserRole, InterviewMode, InterviewStatus } from "../utils/constants.js"
+import {
+  UserRole,
+  InterviewMode,
+  InterviewStatus,
+  SortKey,
+} from "../utils/constants.js"
+import { SKILLS_BY_CATEGORY } from "../utils/skillsDb.js"
 // -------------------------------- User Types and Interfaces --------------------------------
 export interface UserPayload {
   userId: string
@@ -54,7 +60,7 @@ export type RequestQuery = {
   type?: string
   page?: number
   limit?: number
-  sort?: string
+  sort?: SortKey
 }
 
 export type createJobRequestBody = {
@@ -148,3 +154,5 @@ export interface LoginBody {
 }
 
 // -------------------------------- ApplyBuddy Types and Interfaces --------------------------------
+
+export type Catkey = keyof typeof SKILLS_BY_CATEGORY

@@ -13,7 +13,8 @@ import axios from "axios"
 
 const SingleJobView = () => {
   const navigate = useNavigate()
-  const { id } = useParams<{id:string}>()
+  const { id } = useParams<{ id: string }>()
+  if (!id) throw Error("Invalid job id")
   const [activeTab, setActiveTab] = useState<TabType>("Jobdescription")
 
   const { data: job, isLoading, error } = useGetJob(id)
@@ -22,7 +23,7 @@ const SingleJobView = () => {
   const tabs: TabType[] = ["Jobdescription", "Overview", "Skills"]
 
   const handleDelete = () => {
-    if(!job) return
+    if (!job) return
     const ok = window.confirm(
       `Delete "${job.position}" at ${job.company}? This cannot be undone.`,
     )
@@ -49,7 +50,9 @@ const SingleJobView = () => {
         <div className='bg-red-50 border border-red-200 rounded-lg p-6 max-w-md'>
           <p className='text-red-600 font-medium mb-2'>Failed to load job</p>
           <p className='text-sm text-red-500'>
-            {axios.isAxiosError(error)?error?.response?.data?.msg:error?.message || "Unknown error"}
+            {axios.isAxiosError(error)
+              ? error?.response?.data?.msg
+              : error?.message || "Unknown error"}
           </p>
           <button
             onClick={() => navigate("/dashboard/jobs")}

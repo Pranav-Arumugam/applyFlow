@@ -41,6 +41,12 @@ export const INTERVIEW_STATUS = {
   CANCELLED: "cancelled",
 } as const
 
+export const SORT_OBJECT = {
+  newest: "-createdAt",
+  oldest: "createdAt",
+  score: "-matchScore",
+} as const
+
 export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES]
 
 export type JobStatus = (typeof JOB_STATUS)[keyof typeof JOB_STATUS]
@@ -53,3 +59,7 @@ export type InterviewMode = (typeof INTERVIEW_MODE)[keyof typeof INTERVIEW_MODE]
 
 export type InterviewStatus =
   (typeof INTERVIEW_STATUS)[keyof typeof INTERVIEW_STATUS]
+
+export type SortType = (typeof SORT_OBJECT)[keyof typeof SORT_OBJECT]
+
+export type SortKey = keyof typeof SORT_OBJECT
