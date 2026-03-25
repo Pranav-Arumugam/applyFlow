@@ -9,12 +9,12 @@ type ModalMode = "create" | "edit"
 const InterviewLayout = () => {
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [modalMode, setModalMode] = React.useState<ModalMode>("create") // or "edit"
-  const [selectedInterview, setSelectedInterview] = useState<Interview | null>(
-    null,
-  )
+  const [selectedInterview, setSelectedInterview] = useState<
+    Interview | undefined
+  >(undefined)
 
   const openCreateModal = () => {
-    setSelectedInterview(null)
+    setSelectedInterview(undefined)
     setModalMode("create")
     setOpenModal(true)
   }

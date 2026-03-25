@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes"
-import Job from "../models/JobModel.js"
+import JobModel, { Job, JobDoc } from "../models/JobModel.js"
 import { extractSkillsByFrequency, analyseJobFit } from "../utils/analyzeJD.js"
 import User from "../models/UserModel.js"
 import { Request, Response } from "express"
@@ -24,7 +24,7 @@ export const createJobFromApplyBuddy = async (
   const user = await User.findById(userId)
   if (!user) throw new NotFoundError("User not found")
 
-  const existingJob = await Job.findOne({
+  const existingJob = await JobModel.findOne<JobDoc>({
     jobUrl: body.jobUrl,
     createdBy: userId,
   })
@@ -43,7 +43,7 @@ export const createJobFromApplyBuddy = async (
     totalMatched,
   } = analyseJobFit(requiredSkills, user.skills || [])
 
-  const fieldsToCheck: string[] = [
+  const fieldsToCheck: Array<keyof Job> = [
     "company",
     "position",
     "jobLocation",
@@ -53,8 +53,7 @@ export const createJobFromApplyBuddy = async (
   ]
 
   const isChanged = existingJob
-    ? fieldsToCheck.some((key) => {
-        const field = key as keyof createJobRequestBody
+    ? fieldsToCheck.some((field) => {
         return req.body[field] !== existingJob.toObject()[field]
       })
     : false
@@ -74,7 +73,7 @@ export const createJobFromApplyBuddy = async (
   if (existingJob && isChanged) {
     console.log("change detected, updating existing job")
 
-    const updatedJob = await Job.findByIdAndUpdate(
+    const updatedJob = await JobModel.findByIdAndUpdate(
       existingJob._id,
       {
         ...body,
@@ -96,7 +95,7 @@ export const createJobFromApplyBuddy = async (
     return res.status(StatusCodes.OK).json({ job: existingJob, created: false })
   }
 
-  const job = await Job.create({
+  const job = await JobModel.create({
     ...req.body,
     requiredSkills,
     matchedSkills,

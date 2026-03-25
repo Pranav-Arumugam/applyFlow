@@ -7,6 +7,7 @@ import { extractSkillsByFrequency, analyseJobFit } from "../utils/analyzeJD.js"
 import day from "dayjs"
 import { Request, Response } from "express"
 import { UserPayload } from "../types/index.js"
+import { SortType, SortKey, SORT_OBJECT } from "../utils/constants.js"
 import {
   queryObjectType,
   RequestQuery,
@@ -52,12 +53,7 @@ export const getAllJobs = async (
     ]
   }
 
-  const sortObject = {
-    newest: "-createdAt",
-    oldest: "createdAt",
-    score: "-matchScore",
-  }
-  const sortKey = sortObject[sort ?? "newest"] ?? sortObject.newest
+  const sortKey = SORT_OBJECT[sort ?? "newest"]
 
   const pageNumber = Math.max(1, parseInt(page.toString()))
   const limitNumber = Math.max(1, Math.min(50, parseInt(limit.toString())))
@@ -195,7 +191,7 @@ export const showStats = async (req: Request, res: Response): Promise<void> => {
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
     { $group: { _id: "$jobStatus", count: { $sum: 1 } } },
   ])
-  let stats: Record<string, number> = statsArray.reduce((acc, cur) => {
+  let stats = statsArray.reduce<Record<string, number>>((acc, cur) => {
     const { _id: title, count } = cur
     acc[title] = count
     return acc

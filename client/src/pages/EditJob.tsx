@@ -15,7 +15,7 @@ const EditJob = () => {
   const { data: job, isLoading, error } = useGetJob(id)
   const { mutate: editJob, isPending } = useEditJob()
 
-  const handleUpdateJob = async (formData: Partial<JobFormData>) => {
+  const handleUpdateJob = async (formData: JobFormData) => {
     editJob(
       { id, formData },
       {
