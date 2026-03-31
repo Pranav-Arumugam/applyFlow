@@ -1,121 +1,169 @@
 # ApplyFlow
 
-A personal system I built to track job applications, manage interview schedules, and understand how my skills align with different roles.
-It’s a tool I built and use to organize my own job search.While applying to multiple roles, I found myself juggling spreadsheets, browser tabs, notes, and calendar reminders. Important details were easy to lose track of, and it was hard to see patterns across applications and interviews.
+> A full-stack job application tracker built the way production software should be typed, tested, containerised, and deployed with automated CI/CD.
 
-I built ApplyFlow to turn that process into a single, structured system where I could:
+I built this because I was juggling spreadsheets, browser tabs, and calendar reminders across multiple job applications. I wanted a single structured system and I wanted to build it properly, not just quickly.
 
-- Track applications clearly
-- Visualize interview timelines
-- Compare job requirements with my own skill set
-- Learn from outcomes instead of guessing
+**Live:** [applyflow-10e4.onrender.com](https://applyflow-10e4.onrender.com)
 
 ---
 
 ## What it does
 
-- **Job application tracking**  
-  Store and manage applications with status, company, role, and location.
-
-- **Interview scheduling**  
-  Calendar-based view for interviews, rounds, and follow-ups.
-
-- **Skill alignment**  
-  Compare required skills for a role against your own to identify gaps and strengths.
-
-- **Progress insights**  
-  View patterns across applications and interviews over time.
+- Track job applications with status, location, type, and match score
+- Schedule and manage interviews on a calendar view
+- Analyse job descriptions against your skill profile to surface gaps
+- Visualise application trends and outcomes over time
+- ApplyBuddy browser extension _(in development)_ one-click job capture from LinkedIn, Indeed, and Glassdoor
 
 ---
 
-## Tech overview
+## Tech decisions
 
-The stack was chosen to stay simple, explicit, and easy to evolve.
+Every choice here was deliberate.
 
-### Frontend
+### TypeScript (strict mode)
 
-- React
-- React Router
-- Tailwind CSS
+The entire codebase frontend and backend runs with `strict: true`. Not because it's fashionable, but because it caught real bugs during development:
 
-### Backend
+- `.toFixed()` returning a `string` being compared to a `number`
+- Missing null checks on Mongoose queries
+- Mongoose silently dropping fields not defined in the schema
+- Wrong `__dirname` path after TypeScript compilation
 
-- Node.js
-- Express
-- REST APIs
+Strict mode turns these into compile errors instead of runtime surprises.
 
-### Database
+### React Query v5
 
-- MongoDB
-- Mongoose
+Chosen over Redux or plain `useEffect` for data fetching. Cache invalidation, background refetching, and loading/error states are handled at the query layer, so components stay clean.
 
-### Validation
+### Docker + Nginx
 
-- express-validator
+Multi-stage Docker builds keep the production image lean. Nginx serves the React build and proxies API requests to the Express backend.The same architecture used in real deployments.
+
+### GitHub Actions CI/CD
+
+Every push to the feature branch triggers an automated pipeline:
+
+1. TypeScript compilation (backend)
+2. TypeScript type checking (frontend)
+3. Frontend Test
+4. Backend Test
+5. Production build (frontend)
+
+Nothing reaches `main` unless all checks pass. Branch protection rules enforce this and merging is physically blocked if CI fails.
+
+### Vitest + React Testing Library
+
+Tests are written to verify behaviour, not implementation. The philosophy: test what a user would notice, not internal component state.
 
 ---
 
-## Project Structure
+## Stack
 
+| Layer            | Technology                               |
+| ---------------- | ---------------------------------------- |
+| Frontend         | React 19, Vite, TypeScript, Tailwind CSS |
+| Backend          | Node.js, Express, TypeScript             |
+| Database         | MongoDB, Mongoose                        |
+| Auth             | JWT, bcrypt                              |
+| HTTP Client      | Axios, React Query v5                    |
+| Containerisation | Docker, Nginx                            |
+| CI/CD            | GitHub Actions                           |
+| Testing          | Vitest, React Testing Library            |
+| Deployment       | Render                                   |
+
+---
+
+## Architecture
+
+```
 applyflow/
-├── client/ # Frontend React application
-│ ├── dist/ # Production build files
-│ ├── node_modules/ # Frontend dependencies
-│ ├── public/ # Static assets
-│ ├── src/
-│ │ ├── assets/ # Images, fonts, etc.
-│ │ ├── components/ # Reusable React components
-│ │ ├── hooks/ # Custom React hooks
-│ │ ├── pages/ # Page components
-│ │ ├── services/ # API calls and external services
-│ │ ├── utils/ # Helper functions
-│ │ ├── App.jsx # Main app component
-│ │ ├── index.css # Global styles
-│ │ └── main.jsx # App entry point
-│ ├── .gitignore
-│ ├── eslint.config.js
-│ ├── index.html
-│ ├── package.json
-│ ├── package-lock.json
-│ └── vite.config.js # Vite configuration
-├── controllers/ # Request handlers and business logic
-├── errors/ # Custom error classes
-├── middleware/ # Express middleware (auth, validation, etc.)
-├── models/ # MongoDB schemas and models
-├── node_modules/ # Backend dependencies
-├── public/ # Backend static files
-├── routes/ # API route definitions
-├── utils/ # Backend helper functions
-├── .env # Environment variables
-├── .gitignore # Git ignore rules
-├── package.json # Backend dependencies and scripts
-├── package-lock.json # Locked dependency versions
-├── README.md # Project documentation
-└── server.js # Express server entry point
+├── client/                  # React + Vite frontend
+│   ├── src/
+│   │   ├── components/      # Reusable UI components
+│   │   ├── hooks/           # Custom React Query hooks
+│   │   ├── pages/           # Route-level components
+│   │   ├── services/        # Typed API layer
+│   │   ├── types/           # Shared TypeScript interfaces
+│   │   └── utils/           # Pure helper functions
+│   ├── Dockerfile           # Multi-stage frontend build
+│   └── nginx.conf           # Nginx reverse proxy config
+├── controllers/             # Request handlers
+├── middleware/              # Auth, validation, error handling
+├── models/                  # Mongoose schemas with inferred types
+├── routes/                  # Express route definitions
+├── types/                   # Shared backend types
+├── utils/                   # Backend helpers
+├── .github/workflows/       # GitHub Actions CI pipeline
+├── docker-compose.yml       # Local development orchestration
+├── Dockerfile               # Backend multi-stage build
+└── server.ts                # Express entry point
+```
 
 ---
 
-## Project status
+## Running locally
 
-This project is actively evolving as I continue to use it during my job search.  
-New features and refinements are added based on real usage rather than artificial requirements.
+**With Docker:**
 
-## Current Limitations
+```bash
+docker compose up --build
+```
 
-While ApplyFlow is functional and solves real problems, there are areas I'm actively working to improve:
+**Without Docker:**
 
-- Manual Data Entry - Currently requires manual input of application details (will be solved by ApplyBuddy extension)
-- Basic Skill Matching - The skill comparison algorithm is relatively simple and may miss nuanced matches or related skills
-- No Resume Parsing - Skills and experience must be entered manually rather than extracted from your resume
-- Limited Job Description Analysis - Job requirement extraction could be more sophisticated and accurate
+```bash
+# Backend
+npm install
+npm run dev
 
-## Upcoming Features
+# Frontend (separate terminal)
+cd client && npm install && npm run dev
+```
 
-- Resume Data Extraction - Automatically parse and extract skills, experience, and qualifications from uploaded resumes
-- Enhanced Skill Matching - Improved accuracy in extracting skills from job descriptions and comparing them against your profile using advanced text analysis
-- ApplyBuddy Browser Extension (In Development)
-  I'm currently building a browser extension that will:
-  - Automatically collect job application data from popular job sites (LinkedIn, Indeed, Glassdoor)
-  - Extract job details, requirements, and company information with one click
-  - Send data directly to ApplyFlow
-  - Eliminate manual data entry entirely
+**Environment variables required:**
+
+```
+MONGO_URL=
+JWT_SECRET=
+JWT_EXPIRES_IN=
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+NODE_ENV=
+```
+
+---
+
+## Testing
+
+```bash
+# Frontend tests
+cd client && npm test
+
+# Backend tests
+npm test
+```
+
+Tests cover component rendering, user interactions, conditional states, and pure utility functions. All tests run automatically in CI on every push.
+
+---
+
+## Current limitations
+
+- Skill matching uses frequency-based extraction works well for technical roles, less so for ambiguous job descriptions
+- Manual data entry required until ApplyBuddy extension ships
+- No resume parsing yet
+
+---
+
+## What's next
+
+- ApplyBuddy browser extension — automatic job capture from job boards
+- Resume parsing — extract skills directly from uploaded CV
+- Enhanced skill matching — smarter NLP-based extraction
+
+---
+
+_Built to solve a real problem. Engineered to the same standard I'd hold production code to._

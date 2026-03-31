@@ -6,7 +6,7 @@ on: #when to run
   pull_request:
     branches: [main]
 
-jobs:
+jobs: #What to run
   build:
     runs-on: ubuntu-latest
 
@@ -32,6 +32,10 @@ jobs:
       - name: Type Check Frontend
         working-directory: client
         run: npx tsc --noEmit
+
+      - name: Run Frontend Tests
+        working-directory: client
+        run: npm test
 
       - name: Build Frontend
         working-directory: client

@@ -46,6 +46,18 @@ export interface Job {
   updatedAt: string
 }
 
+export interface JobCardProps {
+  job: Job
+}
+
+export interface JobFormProps {
+  initialValue: JobFormData
+  onSubmit: (formData: JobFormData) => Promise<void>
+  submitting: boolean
+  title?: string
+  submitLabel?: string
+}
+
 export interface Interview {
   _id: string
   company: string
@@ -115,8 +127,6 @@ export interface RegisterFormData {
   role?: UserRole
   skills: Skills[]
 }
-
-
 
 export interface LoginFormData {
   email: string
