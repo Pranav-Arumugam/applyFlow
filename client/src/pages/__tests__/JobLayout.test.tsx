@@ -53,7 +53,9 @@ vi.mock("../../components/JobCard", () => ({
 
 vi.mock("../../components/JobRow", () => ({
   default: ({ job }: { job: { position: string } }) => (
-    <div data-testid='job-row'>{job.position}</div>
+    <tr data-testid='job-row'>
+      <td>{job.position}</td>
+    </tr>
   ),
 }))
 
