@@ -20,14 +20,14 @@ jobs: #What to run
           node-version: 24
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Backend
         run: npm run build
 
       - name: Install Frontend Dependencies
         working-directory: client
-        run: npm install
+        run: npm ci
 
       - name: Type Check Frontend
         working-directory: client
