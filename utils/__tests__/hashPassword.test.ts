@@ -1,4 +1,4 @@
-import { hashPassword, checkPassword } from "../hashPassword"
+import { hashPassword, checkPassword } from "../hashPassword.js"
 
 describe("testing hashPassword function", () => {
   test("should hash the string into a different string", async () => {

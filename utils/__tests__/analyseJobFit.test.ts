@@ -1,6 +1,6 @@
-import { analyseJobFit } from "../analyzeJD"
-import { extractSkillsByFrequency } from "../analyzeJD"
-import { Skills } from "../../types"
+import { analyseJobFit } from "../analyzeJD.js"
+import { extractSkillsByFrequency } from "../analyzeJD.js"
+import { Skills } from "../../types/index.js"
 describe("anaylse Job fit logic", () => {
   test("should return 0 if no match", () => {
     const jobDescription =
