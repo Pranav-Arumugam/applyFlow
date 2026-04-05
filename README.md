@@ -1,3 +1,7 @@
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)
+![CI](https://github.com/Pranav-Arumugam/applyFlow/actions/workflows/ci.yml/badge.svg)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 # ApplyFlow
 
 > A full-stack job application tracker built the way production software should be typed, tested, containerised, and deployed with automated CI/CD.
@@ -39,7 +43,7 @@ Chosen over Redux or plain `useEffect` for data fetching. Cache invalidation, ba
 
 ### Docker + Nginx
 
-Multi-stage Docker builds keep the production image lean. Nginx serves the React build and proxies API requests to the Express backend.The same architecture used in real deployments.
+Multi-stage Docker builds keep the production image lean. Nginx serves the React build and proxies API requests to the Express backend - the same architecture used in real deployments.
 
 ### GitHub Actions CI/CD
 
@@ -62,12 +66,12 @@ Tests are written to verify behaviour, not implementation. The philosophy: test 
 ## Stack
 
 | Layer            | Technology                               |
-| ---------------- | ---------------------------------------- |
+| ---------------- | ---------------------------------------- | --- |
 | Frontend         | React 19, Vite, TypeScript, Tailwind CSS |
 | Backend          | Node.js, Express, TypeScript             |
 | Database         | MongoDB, Mongoose                        |
 | Auth             | JWT, bcrypt                              |
-| HTTP Client      | Axios, React Query v5                    |
+| State / Data     | React Query v5, Axios                    |     |
 | Containerisation | Docker, Nginx                            |
 | CI/CD            | GitHub Actions                           |
 | Testing          | Vitest, React Testing Library            |
@@ -160,9 +164,9 @@ Tests cover component rendering, user interactions, conditional states, and pure
 
 ## What's next
 
-- ApplyBuddy browser extension — automatic job capture from job boards
-- Resume parsing — extract skills directly from uploaded CV
-- Enhanced skill matching — smarter NLP-based extraction
+- ApplyBuddy browser extension - automatic job capture from job boards
+- Resume parsing - extract skills directly from uploaded CV
+- Enhanced skill matching -smarter NLP-based extraction
 
 ---
 

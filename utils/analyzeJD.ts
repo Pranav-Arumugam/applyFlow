@@ -39,11 +39,19 @@ export const extractSkillsByFrequency = (
       const regex = new RegExp(`\\b${cleanedSkill}\\b`, "gi")
       count = (cleanedText.match(regex) || []).length
     } else {
-      if (cleanedText.includes(cleanedSkill)) {
-        const regex = new RegExp(cleanedSkill, "gi")
+      // fix for bug found while testing where "c" was matching "c++" and "node" was matching "node.js"
+      // so skills with special chars like C++ , Node.js will be matched using includes.
+      if (/[^a-z0-9 ]/.test(cleanedSkill)) {
+        if (cleanedText.includes(cleanedSkill)) {
+          count = 1
+        }
+      } else {
+        // for normal skills we will do exact match using regex word boundary to avoid partial matches
+        const regex = new RegExp(`\\b${cleanedSkill}\\b`, "gi")
         count = (cleanedText.match(regex) || []).length
       }
     }
+
     if (count > 0) {
       frequencyMap.set(skill, count)
     }
