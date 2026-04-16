@@ -5,6 +5,9 @@ import {
   InterviewMode,
   InterviewStatus,
   SortKey,
+  JobType,
+  JobStatus,
+  JobMode,
 } from "../utils/constants.js"
 import { SKILLS_BY_CATEGORY } from "../utils/skillsDb.js"
 // -------------------------------- User Types and Interfaces --------------------------------
@@ -67,9 +70,10 @@ export type createJobRequestBody = {
   position: string
   company: string
   jobLocation: string
-  jobType: string
-  jobStatus: string
+  jobType: JobType
+  jobStatus: JobStatus
   jobDescription: string
+  jobMode?: JobMode
   jobUrl: string
   createdBy?: string
   requiredSkills?: string[]

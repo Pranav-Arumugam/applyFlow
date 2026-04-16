@@ -96,7 +96,7 @@ export const createJobFromApplyBuddy = async (
   }
 
   const job = await JobModel.create({
-    ...req.body,
+    ...body,
     requiredSkills,
     matchedSkills,
     missingSkills,
