@@ -72,11 +72,14 @@ export const createJobFromApplyBuddy = async (
 
   if (existingJob && isChanged) {
     console.log("change detected, updating existing job")
+    const cleanBody = Object.fromEntries(
+      Object.entries(body).filter(([_, v]) => v !== ""),
+    )
 
     const updatedJob = await JobModel.findByIdAndUpdate(
       existingJob._id,
       {
-        ...body,
+        ...cleanBody,
         jobUrl: existingJob.jobUrl, // Ensure jobUrl remains unchanged
         requiredSkills,
         matchedSkills,
@@ -95,8 +98,12 @@ export const createJobFromApplyBuddy = async (
     return res.status(StatusCodes.OK).json({ job: existingJob, created: false })
   }
 
+  const cleanBody = Object.fromEntries(
+    Object.entries(body).filter(([_, v]) => v !== ""),
+  )
+
   const job = await JobModel.create({
-    ...body,
+    ...cleanBody,
     requiredSkills,
     matchedSkills,
     missingSkills,
